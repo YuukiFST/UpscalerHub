@@ -12,6 +12,12 @@ Game developers often ship titles with outdated DLSS, FSR, or XeSS files. Upscal
 - **Auto-Scanner:** Find games installed via Steam, Epic Games, or local directories.
 - **Localization:** English and Brazilian Portuguese.
 
+## Screenshots
+
+<img width="1098" height="701" alt="image" src="https://github.com/user-attachments/assets/d94cf225-5695-441e-acb4-84ab64c58415" />
+<img width="1919" height="1037" alt="image" src="https://github.com/user-attachments/assets/84341ad2-35fa-43ae-80f3-35e188485af0" />
+
+
 ## Installation
 
 Download the latest `UpscalerHub.exe` from the [Releases](https://github.com/YuukiFST/UpscalerHub/releases) page. The executable runs standalone. No installation required.
