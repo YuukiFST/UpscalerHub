@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Upscaler Hub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Iosevka:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <!-- Custom Title Bar -->
+    <header id="titlebar" style="--wails-draggable: drag">
+      <div class="titlebar-left">
+        <!-- Modern Logo SVG -->
+        <svg class="titlebar-logo" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+        </svg>
+        <span class="titlebar-title">Upscaler Hub</span>
+      </div>
+      <div class="titlebar-controls" style="--wails-draggable: no-drag">
+        <!-- Language toggle -->
+        <button id="btn-lang-toggle" class="btn-lang">ENG</button>
+
+        <!-- GPU Info in titlebar -->
+        <div id="gpu-badge" class="gpu-badge-titlebar">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="14" x2="23" y2="14"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="14" x2="4" y2="14"></line></svg>
+          <span id="gpu-text">Detecting GPU…</span>
+        </div>
+        <button id="btn-minimize" class="titlebar-btn" aria-label="Minimize">
+          ─
+        </button>
+        <button id="btn-maximize" class="titlebar-btn" aria-label="Maximize">
+          □
+        </button>
+        <button
+          id="btn-close"
+          class="titlebar-btn titlebar-close"
+          aria-label="Close"
+        >
+          ✕
+        </button>
+      </div>
+    </header>
+
+    <!-- Navigation Sidebar -->
+    <nav id="sidebar">
+      <button class="nav-btn active" data-view="games" data-i18n-title="navGames">
+        <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="6" width="20" height="12" rx="2"></rect>
+          <path d="M6 12h4m-2-2v4m8-2h.01M16 10h.01"></path>
+        </svg>
+      </button>
+      <button class="nav-btn" data-view="settings" data-i18n-title="navSettings">
+        <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"></circle>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+        </svg>
+      </button>
+      <button class="nav-btn" data-view="library" data-i18n-title="navLibrary">
+        <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2h11A2.5 2.5 0 0 1 20 4.5v15M4 19.5h16M4 19.5A2.5 2.5 0 0 0 6.5 22h11M14 8h-4"></path>
+        </svg>
+      </button>
+      <button class="nav-btn" data-view="about" data-i18n-title="navAbout">
+        <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="16" x2="12" y2="12"></line>
+          <line x1="12" y1="8" x2="12.01" y2="8"></line>
+        </svg>
+      </button>
+      <div class="nav-spacer"></div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main id="content">
+      <!-- Games View -->
+      <section id="view-games" class="view active">
+        <div class="view-header">
+          <div class="view-header-left">
+            <h1 data-i18n="navGames">Games</h1>
+            <span id="game-count" class="badge">0</span>
+          </div>
+          <div class="view-header-right">
+            <input
+              type="text"
+              id="search-input"
+              placeholder="Search games…"
+              class="search-box"
+            />
+            <button id="btn-scan" class="btn btn-primary">
+              <span style="display: flex; align-items: center; gap: 6px;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+                Scan
+              </span>
+            </button>
+            <button id="btn-add" class="btn btn-secondary">
+              <span style="display: flex; align-items: center; gap: 6px;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                Add Game
+              </span>
+            </button>
+          </div>
+        </div>
+        <div id="game-list" class="game-grid">
+          <div class="empty-state" id="empty-state">
+            <span class="empty-icon">🎮</span>
+            <p data-i18n="noGamesFound">No games found</p>
+            <p class="empty-hint" data-i18n-html="scanHint">
+              Click <strong>Scan</strong> to detect installed games
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Manage Game View (shown as overlay) -->
+      <section id="view-manage" class="view">
+        <div class="view-header">
+          <div class="view-header-left">
+            <button class="btn btn-ghost btn-icon" id="btn-back">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 12H5M12 19l-7-7 7-7" />
+              </svg>
+            </button>
+            <h1 id="manage-title">Game Title</h1>
+          </div>
+          <div class="view-header-right">
+            <button id="btn-favorite" class="btn btn-ghost btn-icon" title="Toggle Favorite">
+              <svg id="icon-favorite" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            </button>
+          </div>
+        </div>
+        <div class="manage-content manage-split">
+          <div class="manage-col-left">
+            <div class="manage-cover-container">
+              <img id="manage-cover-image" src="" alt="Game Cover" />
+            </div>
+            <div class="manage-actions">
+              <button id="btn-launch" class="btn btn-primary btn-block" style="font-size: 16px; padding: 12px 16px;">
+                 ▶ <span data-i18n="play">Play</span>
+              </button>
+              <button id="btn-open-folder" class="btn btn-secondary btn-block" style="display: flex; align-items: center; justify-content: center;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px; flex-shrink: 0;">
+                  <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                </svg>
+                <span data-i18n="openFolder">Open Folder</span>
+              </button>
+            </div>
+          </div>
+          <div class="manage-col-right">
+            <div class="manage-card">
+            <h2 data-i18n="optiStatusTitle">OptiScaler Status</h2>
+            <div id="opti-status" class="status-row">
+              <span class="status-dot off"></span>
+              <span data-i18n="notInstalled">Not Installed</span>
+            </div>
+            <div id="opti-version-row" class="info-row" style="display: none">
+              <span class="label" data-i18n="versionLabel">Version:</span>
+              <span id="opti-installed-ver"></span>
+            </div>
+          </div>
+          <div class="manage-card">
+            <h2 data-i18n="installUpdateTitle">Install / Update</h2>
+            <div class="form-row">
+              <label data-i18n="versionLabelBare">Version</label>
+              <select id="sel-version" class="select"></select>
+            </div>
+            <div class="form-row">
+              <label data-i18n="injectionLabel">Injection</label>
+              <select id="sel-injection" class="select">
+                <option value="dxgi.dll" data-i18n="dxgiOpt">dxgi.dll (DirectX 12)</option>
+                <option value="version.dll" data-i18n="versionOpt">version.dll (Universal)</option>
+                <option value="winmm.dll" data-i18n="winmmOpt">winmm.dll (Alternative)</option>
+                <option value="wininet.dll" data-i18n="wininetOpt">wininet.dll (Alternative)</option>
+                <option value="winhttp.dll" data-i18n="winhttpOpt">winhttp.dll (Alternative)</option>
+              </select>
+            </div>
+            <div class="form-row checkbox-row">
+              <label
+                ><input type="checkbox" id="chk-fakenvapi" /> <span data-i18n="installFakenvapi">Install Fakenvapi (AMD/Intel)</span></label
+              >
+            </div>
+            <div class="form-row checkbox-row">
+              <label
+                ><input type="checkbox" id="chk-nukem" /> <span data-i18n="installNukem">Install NukemFG (Frame Gen)</span></label
+              >
+            </div>
+            <div class="btn-group">
+              <button id="btn-install" class="btn btn-primary" data-i18n="installBtn">
+                ✦ Install
+              </button>
+              <button
+                id="btn-uninstall"
+                class="btn btn-danger"
+                style="display: none"
+                data-i18n="uninstallBtn"
+              >
+                ✕ Uninstall
+              </button>
+            </div>
+            <div
+              id="install-progress"
+              class="progress-bar"
+              style="display: none"
+            >
+              <div class="progress-fill"></div>
+            </div>
+          </div>
+          <div class="manage-card">
+            <h2 data-i18n="detectedComponentsTitle">Detected Components</h2>
+            <div id="detected-components" class="components-grid"></div>
+          </div>
+          <div class="manage-card" id="native-swapper-card">
+            <h2 data-i18n="nativeSwapperTitle">Official Upscalers (Native Swap)</h2>
+            <p class="desc" data-i18n="nativeSwapperDesc">Replace native original DLLs with other official versions downloaded from your Library.</p>
+            <div id="native-swapper-technologies" style="display: flex; flex-direction: column; gap: 16px; margin-top: 16px;">
+               <!-- Populated dynamically via JS per technology -->
+            </div>
+            <div class="empty-state" id="native-swapper-empty" style="display:none;" data-i18n="noNativeUpscalers">
+               No native upscalers detected in this game.
+            </div>
+          </div>
+          
+          <div class="manage-card" id="dlss-presets-card" style="display: none;">
+            <h2 data-i18n="dlssPresetsTitle">DLSS Presets (NVAPI)</h2>
+            <p class="desc" data-i18n="dlssPresetsDesc">Modify driver-level DLSS Render Presets for this game.</p>
+            <div class="form-row" id="row-dlss-preset" style="display: none;">
+               <label>DLSS Super Resolution Preset</label>
+               <select id="sel-preset-dlss" class="select select-preset" data-tech="dlss">
+                  <option value="0">Default</option>
+                  <option value="1">A (Deprecated)</option>
+                  <option value="2">B (Deprecated)</option>
+                  <option value="3">C (Deprecated)</option>
+                  <option value="4">D</option>
+                  <option value="5">E</option>
+                  <option value="6">F</option>
+                  <option value="7">G</option>
+               </select>
+            </div>
+            <div class="form-row" id="row-dlssd-preset" style="display: none;">
+               <label>DLSS Ray Reconstruction Preset</label>
+               <select id="sel-preset-dlssd" class="select select-preset" data-tech="dlssd">
+                  <option value="0">Default</option>
+                  <option value="1">A (Deprecated)</option>
+                  <option value="2">B (Deprecated)</option>
+                  <option value="3">C (Deprecated)</option>
+                  <option value="4">D</option>
+                  <option value="5">E</option>
+                  <option value="6">F</option>
+                  <option value="7">G</option>
+               </select>
+            </div>
+          </div>
+         </div>
+        </div>
+      </section>
+
+      <!-- Upscaler Library View -->
+      <section id="view-library" class="view">
+        <div class="view-header">
+          <div class="view-header-left">
+            <h1 data-i18n="navLibrary">Upscaler Library</h1>
+          </div>
+          <div class="view-header-right">
+             <button id="btn-refresh-manifest" class="btn btn-secondary">
+               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px;"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+               <span data-i18n="refreshManifest">Refresh Manifest</span>
+             </button>
+          </div>
+        </div>
+        <div class="library-container">
+           <div class="library-sidebar">
+              <button class="lib-tab active" data-target="dlss" data-i18n="tabDLSS">DLSS</button>
+              <button class="lib-tab" data-target="dlssg" data-i18n="tabDLSSFG">DLSS Frame Gen</button>
+              <button class="lib-tab" data-target="dlssd" data-i18n="tabDLSSRR">DLSS Ray Reconstruction</button>
+              <button class="lib-tab" data-target="fsr31dx12" data-i18n="tabFSR31DX12">FSR 3.1 (DX12)</button>
+              <button class="lib-tab" data-target="fsr31vk" data-i18n="tabFSR31VK">FSR 3.1 (Vulkan)</button>
+              <button class="lib-tab" data-target="xess" data-i18n="tabXeSS">XeSS</button>
+           </div>
+           <div class="library-content">
+              <table class="library-table">
+                 <thead>
+                    <tr>
+                       <th data-i18n="thVersion">Version</th>
+                       <th data-i18n="thSize">Size</th>
+                       <th data-i18n="thStatus">Status</th>
+                       <th data-i18n="thAction">Action</th>
+                    </tr>
+                 </thead>
+                 <tbody id="library-table-body">
+                 </tbody>
+              </table>
+           </div>
+        </div>
+      </section>
+
+      <!-- Settings View -->
+      <section id="view-settings" class="view">
+        <div class="view-header">
+          <h1 data-i18n="navSettings">Settings</h1>
+        </div>
+        <div class="settings-content">
+          <div class="settings-card">
+            <h3 data-i18n="cacheMgmtTitle">Cache Management</h3>
+            <p class="desc" data-i18n="cacheMgmtDesc">Manage downloaded OptiScaler versions</p>
+            <div id="cache-list" class="cache-list"></div>
+          </div>
+          <div class="settings-card">
+            <h3 data-i18n="componentsTitle">Components</h3>
+            <p class="desc" data-i18n="componentsDesc">Installed versions of managed components</p>
+            <div id="component-versions" class="components-info"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- About View -->
+    <section id="view-about" class="view">
+      <div class="view-header">
+        <h1 data-i18n="navAbout">About</h1>
+      </div>
+      <div class="about-content">
+        <div class="about-card">
+          <div class="about-row">
+            <span class="about-label">Upscaler Hub</span>
+            <span class="about-value" id="about-app-ver">v0.1.0</span>
+          </div>
+          <div class="about-row">
+            <span class="about-label">OptiScaler</span>
+            <div class="about-value-group">
+              <span class="update-badge hidden" id="about-opti-update" data-i18n="updateAvailable">Update available</span>
+              <span class="about-value" id="about-opti-ver">—</span>
+            </div>
+          </div>
+          <div class="about-row">
+            <span class="about-label">Fakenvapi</span>
+            <div class="about-value-group">
+              <span class="update-badge hidden" id="about-fv-update" data-i18n="updateAvailable">Update available</span>
+              <span class="about-value" id="about-fv-ver" data-i18n="notInstalled">Not installed</span>
+            </div>
+          </div>
+          <div class="about-row">
+            <span class="about-label">NukemFG</span>
+            <div class="about-value-group">
+              <span class="update-badge hidden" id="about-nk-update" data-i18n="updateAvailable">Update available</span>
+              <span class="about-value" id="about-nk-ver" data-i18n="notProvided">Not provided</span>
+            </div>
+          </div>
+          <div class="about-row">
+            <span class="about-label" data-i18n="lastBuildDate">Last Build Date</span>
+            <span class="about-value" id="about-build-date">—</span>
+          </div>
+        </div>
+        <div class="about-links">
+          <button id="btn-check-update" class="btn btn-primary" data-i18n="checkUpdatesBtn">Check for updates</button>
+          <button id="btn-github" class="btn btn-secondary" data-i18n="githubBtn">GitHub Repository</button>
+        </div>
+      </div>
+    </section>
+    </main>
+
+    <!-- Toast notification -->
+    <div id="toast" class="toast hidden"></div>
+
+    <script src="/src/main.js" type="module"></script>
+  </body>
+</html>
